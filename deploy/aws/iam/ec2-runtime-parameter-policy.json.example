@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadCinemaOneRuntimeConfig",
+      "Effect": "Allow",
+      "Action": ["ssm:GetParameter"],
+      "Resource": "arn:aws:ssm:__AWS_REGION__:__AWS_ACCOUNT_ID__:parameter/cinema-one/prod/runtime-env"
+    }
+  ]
+}

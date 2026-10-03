@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${locale}" th:dir="${rtl ? 'rtl' : 'ltr'}">
+<head th:replace="~{public/fragments :: head(${seo})}"></head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header th:replace="~{public/fragments :: header(${activeNav})}"></header>
+<nav th:replace="~{public/fragments :: mobileDrawer}"></nav>
+<main id="main-content">
+  <section th:if="${!heroMovies.isEmpty()}" class="hero hero-slider server-hero" data-server-hero aria-label="Featured movies" tabindex="0">
+    <div th:each="movie,stat : ${heroMovies}" class="hero-slide" th:classappend="${stat.index == 0} ? ' active'">
+      <img class="hero-static-bg" th:src="${movie.backdropUrl}" alt="" aria-hidden="true">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-kicker-row"><span class="eyebrow" th:text="#{home.latestPremiere}">Latest premiere</span><span class="hero-slide-count" th:text="${#numbers.formatInteger(stat.index + 1, 2) + ' / ' + #numbers.formatInteger(heroMovies.size(), 2)}">01 / 05</span></div>
+          <h1 class="hero-title" th:text="${movie.title}">Movie</h1>
+          <div class="meta-row"><span class="rating" th:text="${'★ ' + movie.ratingLabel}">★ 8.7</span><span class="meta-dot"></span><span th:text="${movie.year}">2026</span><span class="meta-dot"></span><span th:text="${movie.runtimeLabel}">2h 18m</span><span class="meta-dot"></span><span th:text="${movie.primaryGenre}">Sci-Fi</span></div>
+          <p class="hero-copy" th:text="${movie.shortDescription}">Description</p>
+          <div class="hero-actions"><a class="btn btn-primary" th:href="${movie.watchUrl}" >▶ <span th:text="#{action.watch}">Watch in app</span></a><a class="btn btn-soft" th:href="${movie.detailUrl}" th:text="#{action.moreInfo}">More info</a></div>
+        </div>
+        <aside class="hero-preview" aria-label="Featured movie poster"><div class="hero-preview-poster"><img th:src="${movie.posterUrl}" th:alt="${movie.title + ' poster'}"><span class="hero-preview-badge">NEW</span></div><div class="hero-preview-copy"><span class="eyebrow" th:text="#{home.latestPremiere}">Latest</span><h3 th:text="${movie.title}">Movie</h3><p th:text="${movie.primaryGenre + ' · ' + movie.year}">Sci-Fi · 2026</p></div></aside>
+      </div>
+    </div>
+    <div class="container hero-slider-controls"><div class="hero-arrows"><button aria-label="Previous movie" class="hero-arrow" id="heroPrev" type="button">‹</button><button aria-label="Next movie" class="hero-arrow" id="heroNext" type="button">›</button></div><div class="hero-dots" aria-label="Choose featured movie"><button th:each="movie,stat : ${heroMovies}" type="button" class="hero-dot" th:classappend="${stat.index == 0} ? ' active'" th:attr="aria-label=${movie.title}"></button></div><div class="hero-autoplay" aria-hidden="true"><span id="heroProgress"></span></div></div>
+  </section>
+  <section th:if="${heroMovies.isEmpty()}" class="page-hero"><div class="container"><div class="eyebrow">Cinema One</div><h1 th:text="#{movies.emptyTitle}">No movies found</h1><p th:text="#{movies.emptyCopy}">Add and publish movies from admin.</p><a class="btn btn-brand" th:href="@{/admin/movies/new}">＋ Admin · Add movie</a></div></section>
+
+  <section class="discover-bar"><div class="container discover-inner"><span class="discover-label" th:text="#{home.explore}">Explore</span><div class="discover-chips"><a th:href="@{/{locale}/movies(locale=${locale})}" th:text="#{nav.movies}">Movies</a><a th:each="genre,stat : ${genres}" th:if="${stat.index < 6}" th:href="${genre.url}" th:text="${genre.name}">Genre</a></div><a class="discover-search" th:href="@{/{locale}/search(locale=${locale})}"><span th:text="#{nav.search}">Search</span> <span aria-hidden="true">/</span></a></div></section>
+
+  <section class="section" th:if="${!trendingMovies.isEmpty()}" data-rail-wrap><div class="container"><div class="section-head"><div><h2 th:text="#{home.trending}">Trending now</h2><p class="muted" th:text="#{home.trendingCopy}">Audience favorites.</p></div><div style="display:flex;gap:10px;align-items:center"><div class="rail-nav"><button class="rail-btn" type="button" data-rail-prev aria-label="Previous movies">‹</button><button class="rail-btn" type="button" data-rail-next aria-label="Next movies">›</button></div><a class="link" th:href="@{/{locale}/movies(locale=${locale})}" th:text="#{action.viewAll}">View all</a></div></div><div class="movie-grid movie-rail"><th:block th:each="movie,stat : ${trendingMovies}"><th:block th:replace="~{public/fragments :: movieCard(${movie}, ${stat.index + 1})}"></th:block></th:block></div></div></section>
+
+  <section class="section"><div class="container"><div class="section-head"><div><h2 th:text="#{genres.title}">Genres</h2><p class="muted" th:text="#{genres.copy}">Browse by genre.</p></div><a class="link" th:href="@{/{locale}/genres(locale=${locale})}" th:text="#{action.viewAll}">View all</a></div><div class="genre-grid-dynamic"><a th:each="genre,stat : ${genres}" th:if="${stat.index < 8}" class="genre-dynamic" th:href="${genre.url}"><div><span class="eyebrow" th:text="#{home.explore}">Explore</span><h3 th:text="${genre.name}">Genre</h3></div></a></div></div></section>
+
+  <section class="section" th:if="${!latestMovies.isEmpty()}" data-rail-wrap><div class="container"><div class="section-head"><div><h2 th:text="#{home.latest}">Latest additions</h2><p class="muted" th:text="#{home.latestCopy}">Freshly published.</p></div><div style="display:flex;gap:10px;align-items:center"><div class="rail-nav"><button class="rail-btn" type="button" data-rail-prev aria-label="Previous movies">‹</button><button class="rail-btn" type="button" data-rail-next aria-label="Next movies">›</button></div><a class="link" th:href="@{/{locale}/movies(locale=${locale})}" th:text="#{action.discoverMore}">Discover more</a></div></div><div class="movie-grid movie-rail"><th:block th:each="movie : ${latestMovies}"><th:block th:replace="~{public/fragments :: movieCard(${movie}, null)}"></th:block></th:block></div></div></section>
+
+  <section class="container app-banner"><div><div class="eyebrow">Android Player · Phase 3</div><h2 style="font-size:clamp(2.3rem,5vw,4rem);letter-spacing:-.05em;line-height:.96;margin:12px 0 18px" th:text="#{home.androidTitle}">Discover on web. Watch in the app.</h2><p class="muted" style="max-width:650px" th:text="#{home.androidCopy}">Playback arrives in Phase 3.</p><div class="hero-actions" th:if="${!latestMovies.isEmpty()}"><a class="btn btn-brand" th:href="${latestMovies.get(0).watchUrl}" th:text="#{action.watch}">Watch in app</a></div></div><div class="phone"><div class="phone-notch"></div><div class="phone-screen"><span class="eyebrow">Media3</span><h3 style="font-size:1.5rem;margin:8px 0">Cinema One</h3><div class="fake-controls"></div><div style="display:flex;justify-content:space-between;color:#c7ceda"><span>00:00</span><span>Phase 3</span></div></div></div></section>
+
+  <section class="section" th:if="${!recommendedMovies.isEmpty()}" data-rail-wrap><div class="container"><div class="section-head"><div><h2 th:text="#{home.recommended}">Recommended</h2><p class="muted" th:text="#{home.recommendedCopy}">Popular picks.</p></div><div class="rail-nav"><button class="rail-btn" type="button" data-rail-prev aria-label="Previous movies">‹</button><button class="rail-btn" type="button" data-rail-next aria-label="Next movies">›</button></div></div><div class="movie-grid movie-rail"><th:block th:each="movie : ${recommendedMovies}"><th:block th:replace="~{public/fragments :: movieCard(${movie}, null)}"></th:block></th:block></div></div></section>
+</main>
+<footer th:replace="~{public/fragments :: footer}"></footer>
+<nav th:replace="~{public/fragments :: mobileTabs(${activeNav})}"></nav>
+<script th:replace="~{public/fragments :: scripts}"></script>
+</body></html>

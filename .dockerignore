@@ -1,0 +1,14 @@
+.git
+.github
+.idea
+.vscode
+*.iml
+.env
+*.log
+design-reference-v3
+docs
+deploy
+scripts
+src/test
+target/*
+!target/cinema-one-platform-*.jar

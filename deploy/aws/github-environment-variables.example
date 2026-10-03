@@ -1,0 +1,9 @@
+# Add these as GitHub Environment variables in environment: production
+AWS_REGION=eu-west-3
+AWS_ROLE_ARN=arn:aws:iam::123456789012:role/cinema-one-github-deploy
+ECR_REPOSITORY=cinema-one
+EC2_INSTANCE_ID=i-0123456789abcdef0
+SSM_RUNTIME_ENV_PARAMETER=/cinema-one/prod/runtime-env
+
+# Optional external post-deploy smoke check:
+PUBLIC_HEALTH_URL=https://cinema.example.com/actuator/health

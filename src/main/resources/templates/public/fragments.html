@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(seo)">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080a0f">
+  <title th:text="${seo.title}">Cinema One</title>
+  <meta name="description" th:content="${seo.description}">
+  <meta name="robots" th:content="${seo.robots}">
+  <link rel="canonical" th:href="${seo.canonical}">
+  <link th:each="alt : ${seo.alternates}" rel="alternate" th:hreflang="${alt.key}" th:href="${alt.value}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cinema One">
+  <meta property="og:title" th:content="${seo.title}">
+  <meta property="og:description" th:content="${seo.description}">
+  <meta property="og:url" th:content="${seo.canonical}">
+  <meta property="og:image" th:content="${seo.ogImage}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" th:content="${seo.title}">
+  <meta name="twitter:description" th:content="${seo.description}">
+  <meta name="twitter:image" th:content="${seo.ogImage}">
+  <link rel="icon" type="image/svg+xml" th:href="@{/assets/icons/favicon.svg}">
+  <link rel="manifest" th:href="@{/manifest.webmanifest}">
+  <link rel="apple-touch-icon" th:href="@{/assets/icons/apple-touch-icon.png}">
+  <link rel="stylesheet" th:href="@{/assets/css/public.css}">
+  <script th:if="${seo.jsonLd != null and !#strings.isEmpty(seo.jsonLd)}" type="application/ld+json" th:utext="${seo.jsonLd}"></script>
+</head>
+<body>
+<header th:fragment="header(activeNav)" class="header">
+  <div class="container header-inner">
+    <a class="brand" th:href="@{/{locale}(locale=${locale})}" aria-label="Cinema One home">
+      <span class="brand-mark"></span><span>CINEMA ONE</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a th:classappend="${activeNav == 'home'} ? ' active'" th:href="@{/{locale}(locale=${locale})}" th:text="#{nav.home}">Home</a>
+      <a th:classappend="${activeNav == 'movies'} ? ' active'" th:href="@{/{locale}/movies(locale=${locale})}" th:text="#{nav.movies}">Movies</a>
+      <a th:classappend="${activeNav == 'genres'} ? ' active'" th:href="@{/{locale}/genres(locale=${locale})}" th:text="#{nav.genres}">Genres</a>
+      <a th:classappend="${activeNav == 'search'} ? ' active'" th:href="@{/{locale}/search(locale=${locale})}" th:text="#{nav.search}">Search</a>
+    </nav>
+    <div class="header-actions">
+      <a aria-label="Search" class="icon-btn" th:href="@{/{locale}/search(locale=${locale})}">
+        <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      </a>
+      <details class="locale-menu">
+        <summary class="lang-btn"><span th:text="${siteLocale.shortLabel}">EN</span><span style="opacity:.6">⌄</span></summary>
+        <div class="locale-popover">
+          <a th:each="lang : ${siteLocales}" th:href="${languageLinks != null ? languageLinks[lang.code] : '/' + lang.code}" th:lang="${lang.code}">
+            <span th:text="${lang.nativeName}">English</span><b th:text="${lang.shortLabel}">EN</b>
+          </a>
+        </div>
+      </details>
+      <a class="ghost-btn" th:href="@{/admin}" th:text="#{nav.admin}">Admin</a>
+      <button type="button" class="icon-btn hamburger" aria-expanded="false" th:attr="aria-label=#{nav.menu}">
+        <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav th:fragment="mobileDrawer" class="mobile-drawer" aria-label="Mobile navigation">
+  <a th:href="@{/{locale}(locale=${locale})}" th:text="#{nav.home}">Home</a>
+  <a th:href="@{/{locale}/movies(locale=${locale})}" th:text="#{nav.movies}">Movies</a>
+  <a th:href="@{/{locale}/genres(locale=${locale})}" th:text="#{nav.genres}">Genres</a>
+  <a th:href="@{/{locale}/search(locale=${locale})}" th:text="#{nav.search}">Search</a>
+  <div style="display:flex;gap:8px;padding:9px 12px;flex-wrap:wrap">
+    <a style="border:1px solid rgba(255,255,255,.1);padding:8px 11px" th:each="lang : ${siteLocales}" th:href="${languageLinks != null ? languageLinks[lang.code] : '/' + lang.code}" th:text="${lang.shortLabel}">EN</a>
+  </div>
+</nav>
+
+<article th:fragment="movieCard(movie, rank)" class="movie-card movie-card-server" th:classappend="${rank != null} ? ' ranked-card'" th:attr="data-rank=${rank}">
+  <div class="poster-wrap">
+    <a class="poster-link" th:href="${movie.detailUrl}" th:attr="aria-label=${movie.title}">
+      <img loading="lazy" decoding="async" th:src="${movie.posterUrl}" th:alt="${movie.title + ' poster'}" width="400" height="600">
+    </a>
+    <span class="rating-pill" th:text="${'★ ' + movie.ratingLabel}">★ 8.5</span>
+    <div class="poster-overlay">
+      <span></span>
+      <div class="card-actions">
+        <a class="card-action primary" th:href="${movie.watchUrl}" th:attr="aria-label=#{action.watch}">▶</a>
+        <a class="card-action secondary" th:href="${movie.detailUrl}" th:attr="aria-label=#{action.moreInfo}">＋</a>
+      </div>
+    </div>
+  </div>
+  <a class="movie-title" th:href="${movie.detailUrl}" th:text="${movie.title}">Movie title</a>
+  <div class="movie-sub">
+    <span th:text="${movie.year != null ? movie.year : '—'}">2026</span>
+    <span>•</span>
+    <span th:text="${movie.primaryGenre}">Sci-Fi</span>
+  </div>
+</article>
+
+<footer th:fragment="footer" class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" th:href="@{/{locale}(locale=${locale})}"><span class="brand-mark"></span><span>CINEMA ONE</span></a>
+        <p style="max-width:440px" th:text="#{footer.copy}">A multilingual movie discovery platform.</p>
+      </div>
+      <div><h4 th:text="#{footer.explore}">Explore</h4><a th:href="@{/{locale}/movies(locale=${locale})}" th:text="#{nav.movies}">Movies</a><a th:href="@{/{locale}/genres(locale=${locale})}" th:text="#{nav.genres}">Genres</a><a th:href="@{/{locale}/search(locale=${locale})}" th:text="#{nav.search}">Search</a></div>
+      <div><h4 th:text="#{footer.company}">Company</h4><a th:href="@{/{locale}/about(locale=${locale})}" th:text="#{footer.about}">About</a><a th:href="@{/{locale}/contact(locale=${locale})}" th:text="#{footer.contact}">Contact</a><a th:href="@{/admin}" th:text="#{nav.admin}">Admin</a></div>
+      <div><h4 th:text="#{footer.legal}">Legal</h4><a th:href="@{/{locale}/privacy(locale=${locale})}" th:text="#{footer.privacy}">Privacy</a><a th:href="@{/{locale}/terms(locale=${locale})}" th:text="#{footer.terms}">Terms</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Cinema One. <span th:text="#{footer.rights}">All rights reserved.</span></span><span>AR · FR · EN</span></div>
+  </div>
+</footer>
+
+<nav th:fragment="mobileTabs(activeNav)" class="mobile-tabs" aria-label="Mobile tabs">
+  <a th:classappend="${activeNav == 'home'} ? ' active'" th:href="@{/{locale}(locale=${locale})}"><span>⌂</span><span th:text="#{nav.home}">Home</span></a>
+  <a th:classappend="${activeNav == 'movies'} ? ' active'" th:href="@{/{locale}/movies(locale=${locale})}"><span>▦</span><span th:text="#{nav.movies}">Movies</span></a>
+  <a th:classappend="${activeNav == 'search'} ? ' active'" th:href="@{/{locale}/search(locale=${locale})}"><span>⌕</span><span th:text="#{nav.search}">Search</span></a>
+  <a th:classappend="${activeNav == 'genres'} ? ' active'" th:href="@{/{locale}/genres(locale=${locale})}"><span>◫</span><span th:text="#{nav.genres}">Genres</span></a>
+</nav>
+
+<script th:fragment="scripts" th:src="@{/assets/js/public.js}"></script>
+</body>
+</html>

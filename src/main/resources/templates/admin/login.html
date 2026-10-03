@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Admin Login · Cinema One</title><meta name="robots" content="noindex,nofollow,noarchive">
+<link rel="stylesheet" th:href="@{/assets/css/mock-styles.css}"><link rel="stylesheet" th:href="@{/assets/css/phase1.css}">
+</head><body class="admin-body"><main class="login-page">
+<section class="login-art"><div><div class="eyebrow">Cinema One Administration</div><h1>Run the catalog with confidence.</h1></div></section>
+<section class="login-panel"><form class="login-form" th:action="@{/admin/login}" method="post">
+<a class="brand" th:href="@{/}"><span class="brand-mark"></span><span>CINEMA ONE</span></a>
+<div class="eyebrow">Secure access</div><h2>Welcome back</h2><p class="muted">Sign in to manage the movie catalog.</p>
+<div th:if="${param.error}" class="alert alert-error login-error">Invalid email or password.</div>
+<div th:if="${param.logout}" class="alert alert-success login-error">You have been signed out.</div>
+<div class="form-group"><label class="required" for="email">Email</label><input class="input" id="email" name="email" type="email" autocomplete="username" required autofocus></div>
+<div class="form-group"><label class="required" for="password">Password</label><input class="input" id="password" name="password" type="password" autocomplete="current-password" required></div>
+<button class="btn btn-brand btn-block" type="submit">Sign in</button>
+<div class="demo-note">Development bootstrap credentials are configured through environment variables. Change the defaults before sharing or deploying this build.</div>
+</form></section></main></body></html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cinema One · Phase 1</title><meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" th:href="@{/assets/css/mock-styles.css}"><link rel="stylesheet" th:href="@{/assets/css/phase1.css}">
+</head><body><main class="phase-landing"><section class="phase-card">
+<div class="brand"><span class="brand-mark"></span><span>CINEMA ONE</span></div>
+<div class="eyebrow">Real project · Phase 1</div><h1>Foundation<br>is live.</h1>
+<p>This build contains the real Spring Boot + PostgreSQL foundation, secured administration, database migrations, movie translations and catalog CRUD. The public catalog from the approved mock arrives in Phase 2.</p>
+<div class="phase-list"><div><strong>Database</strong><small>PostgreSQL + Flyway</small></div><div><strong>Security</strong><small>Session + CSRF + BCrypt</small></div><div><strong>Catalog</strong><small>Movies + EN/FR/AR + Genres</small></div></div>
+<a class="btn btn-brand" th:href="@{/admin}">Open Admin Panel →</a>
+</section></main></body></html>

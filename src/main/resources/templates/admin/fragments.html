@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><body>
+<aside class="admin-side" th:fragment="sidebar(active)">
+  <a class="brand" th:href="@{/admin}"><span class="brand-mark"></span><span>CINEMA ONE</span></a>
+  <nav class="admin-menu">
+    <a th:classappend="${active == 'dashboard'} ? ' active'" th:href="@{/admin}">⌂ Dashboard</a>
+    <a th:classappend="${active == 'movies'} ? ' active'" th:href="@{/admin/movies}">▣ Movies</a>
+    <a th:classappend="${active == 'add'} ? ' active'" th:href="@{/admin/movies/new}">＋ Add movie</a>
+    <a th:classappend="${active == 'genres'} ? ' active'" th:href="@{/admin/genres}">◇ Genres</a>
+    <a href="#" aria-disabled="true" title="Phase 2">文 Locales <small>· P2</small></a>
+    <a href="#" aria-disabled="true" title="Phase 2">◫ Media <small>· P2</small></a>
+  </nav>
+  <div class="admin-side-bottom">
+    <form th:action="@{/admin/logout}" method="post"><button class="btn btn-soft btn-block" type="submit">Sign out</button></form>
+  </div>
+</aside>
+<header class="admin-top" th:fragment="topbar(title)">
+  <strong th:text="${title}">Administration</strong>
+  <div class="top-user"><small th:text="${currentUserEmail}">admin@example.com</small><div class="avatar">AD</div></div>
+</header>
+<nav class="admin-mobile-nav" th:fragment="mobileNav(active)">
+  <a th:classappend="${active == 'dashboard'} ? ' active'" th:href="@{/admin}"><span>⌂</span>Home</a>
+  <a th:classappend="${active == 'movies'} ? ' active'" th:href="@{/admin/movies}"><span>▣</span>Movies</a>
+  <a th:classappend="${active == 'add'} ? ' active'" th:href="@{/admin/movies/new}"><span>＋</span>Add</a>
+  <a th:classappend="${active == 'genres'} ? ' active'" th:href="@{/admin/genres}"><span>◇</span>Genres</a>
+  <form th:action="@{/admin/logout}" method="post"><button type="submit"><span>↪</span>Exit</button></form>
+</nav>
+</body></html>

@@ -1,0 +1,11 @@
+target/
+.idea/
+*.iml
+.vscode/
+.env
+.DS_Store
+*.log
+
+# CI/CD runtime files are created locally/on EC2 and must never be committed.
+runtime.env
+deploy/aws/runtime.env

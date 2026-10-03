@@ -1,0 +1,24 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  thymeleaf:
+    cache: true
+
+server:
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        secure: true
+
+app:
+  site-base-url: ${SITE_BASE_URL}
+  demo-content:
+    enabled: false
+  bootstrap-admin:
+    enabled: ${APP_BOOTSTRAP_ADMIN_ENABLED:false}
+    email: ${APP_ADMIN_EMAIL:}
+    password: ${APP_ADMIN_PASSWORD:}
+    display-name: ${APP_ADMIN_DISPLAY_NAME:Cinema One Admin}
+    reset-existing-password: false

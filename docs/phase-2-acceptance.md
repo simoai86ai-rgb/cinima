@@ -1,0 +1,21 @@
+# Phase 2 acceptance checklist
+
+- [x] Phase 1 schema upgrades without destructive reset
+- [x] Admin can manage movie poster/backdrop references
+- [x] Only PUBLISHED movies appear publicly
+- [x] `/en`, `/fr`, `/ar` render localized server-side pages
+- [x] Arabic pages use RTL
+- [x] Movie slugs remain locale-specific
+- [x] Changed movie slugs keep permanent 301 redirects from old URLs
+- [x] Public catalog supports search, genre, year and pagination
+- [x] Search/filter utility combinations are not treated as canonical index pages
+- [x] Movie detail pages generate canonical + hreflang
+- [x] Movie pages generate Movie + BreadcrumbList JSON-LD
+- [x] Catalog/genre pages generate ItemList JSON-LD
+- [x] Open Graph and Twitter metadata are dynamic
+- [x] `sitemap.xml` is a scalable sitemap index; movie sitemap files contain published canonical URLs only
+- [x] `robots.txt` points to the sitemap and blocks admin crawling
+- [x] Search uses parameterized JPA queries
+- [x] PostgreSQL trigram indexes are provisioned by Flyway
+- [x] Responsive public UI uses real database content
+- [x] Android watch route is intentionally a noindex Phase 3 placeholder
